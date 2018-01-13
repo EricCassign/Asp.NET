@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LibraryData.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryData
