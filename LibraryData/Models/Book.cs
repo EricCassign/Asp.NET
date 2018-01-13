@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LibraryData.Models
 {
-  public  class Book
+  public  class Book : LibraryAsset
     {
     [Required]
     public  string ISBN { get; set; }
