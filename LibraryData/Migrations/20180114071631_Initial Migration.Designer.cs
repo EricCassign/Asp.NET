@@ -12,8 +12,8 @@ using System;
 namespace LibraryData.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20180113192503_Entity Models Migration")]
-    partial class EntityModelsMigration
+    [Migration("20180114071631_Initial Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
