@@ -57,11 +57,11 @@ namespace LibraryServices
       return title;
     }
 
-    public string GetISBN(int id)
+    public string GetIsbn(int id)
     {
       if (_context.Books.Any(a => a.Id == id))
       {
-        return _context.Books.FirstOrDefault(book => book.Id == id)?.ISBN;
+        return _context.Books.FirstOrDefault(book => book.Id == id)?.Isbn;
       }
       return "";
     }
