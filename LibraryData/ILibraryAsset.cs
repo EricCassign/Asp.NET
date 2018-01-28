@@ -10,7 +10,8 @@ namespace LibraryData
     void Add(LibraryAsset libraryAsset);
     string GetAuthorOrDirector(int id);
     string GetTitle(int id);
-    string GetISBN(int id);
+    string GetIsbn(int id);
+    string GetType(int id);
 
     LibraryBranch GetCurrentLibraryBranch(int id);
 
