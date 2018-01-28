@@ -61,7 +61,7 @@ namespace LibraryServices
     {
       if (_context.Books.Any(a => a.Id == id))
       {
-        return _context.Books.FirstOrDefault(book => book.Id == id)?.Isbn;
+        return _context.Books.FirstOrDefault(book => book.Id == id)?.ISBN;
       }
       return "";
     }
