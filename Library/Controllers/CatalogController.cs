@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Library.Models.Catalog;
+using Library.Models.CheckoutM;
 using LibraryData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,13 @@ namespace Library.Controllers
     public class CatalogController : Controller
     {
       private readonly ILibraryAsset _asset;
+      private readonly ICheckout _checkout;
 
-      public CatalogController(ILibraryAsset asset)
+      public CatalogController(ILibraryAsset asset, ICheckout checkout)
       {
+
         _asset = asset;
+        _checkout = checkout;
       }
         // GET: Catalog
         public ActionResult Index()
@@ -40,7 +44,15 @@ namespace Library.Controllers
     // GET: Catalog/Details/5
     public ActionResult Details(int id)
     {
-      var asset = _asset.GetById(id) ?? throw new ArgumentNullException("_asset.GetById(id)");
+      var asset = _asset.GetById(id) ;
+
+      var  currentHolds =_checkout.GetCurrentHolds(id)
+        .Select(a=>new AssetHoldModel()
+        {
+          Patron = _checkout.GetCurrentHoldPatron(a.Id),
+          HolDateTime = _checkout.GetCurrentHoldPlacedTime(a.Id)
+        });
+
       var model = new LibraryAssetDetailsDTO
       {
           Id = id,
@@ -53,7 +65,11 @@ namespace Library.Controllers
           CurrentLocation = _asset.GetCurrentLibraryBranch(id).Name,
           Status = asset.Status.Name,
           NumberOfCopies = asset.NumberOfCopies,
-          Type = _asset.GetType(id)
+          Type = _asset.GetType(id),
+          Patron = _checkout.GetCurrentCheckoutPatron(id),
+          CheckoutHistories = _checkout.GetCheckoutHistories(id),
+          LatestCheckout = _checkout.GetLatestCheckout(id),
+          CurrentHolds = currentHolds
 
       };
       //var model=new LibraryAssetDetailsApi
@@ -62,6 +78,74 @@ namespace Library.Controllers
       //};
       return View(model);
     }
+      public IActionResult Checkin(int id)
+      {
+        _checkout.CheckInItem(id);
+        return RedirectToAction("Details", new { id = id });
+      }
+
+
+    public IActionResult Checkout(int id)
+      {
+        var asset = _asset.GetById(id);
+
+        var model = new CheckoutDTO
+        {
+          AssetId = id,
+          LibraryCardId = "",
+          ImageUrl = asset.ImageUrl,
+          Title = asset.Title,
+          IsCheckeOut = _checkout.IsCheckedOut(id),
+          HoldCount = _checkout.GetCurrentHolds(id).Count()
+        };
+        return View(model);
+      }
+      public IActionResult Hold(int id)
+      {
+        var asset = _asset.GetById(id);
+
+        var model = new CheckoutDTO
+        {
+          AssetId = id,
+          LibraryCardId = "",
+          ImageUrl = asset.ImageUrl,
+          Title = asset.Title,
+          IsCheckeOut = _checkout.IsCheckedOut(id),
+          HoldCount = _checkout.GetCurrentHolds(id).Count()
+        };
+        return View(model);
+      }
+
+    [HttpPost]
+      public IActionResult PlaceCheckout(int assetId,int libraryCardId)
+      {
+      _checkout.CheckOutAsset(assetId, libraryCardId);
+        return RedirectToAction("Details", new {id = assetId});
+      }
+
+      [HttpPost]
+      public IActionResult PlaceHold(int assetId, int libraryCardId)
+      {
+        _checkout.PlaceHold(assetId, libraryCardId);
+        return RedirectToAction("Details", new { id = assetId });
+      }
+
+      [HttpPost]
+      public IActionResult MarkLost(int assetId)
+      {
+        _checkout.MarkLost(assetId);
+        return RedirectToAction("Details", new { id = assetId });
+      }
+
+      [HttpPost]
+      public IActionResult MarkFound(int assetId)
+      {
+        _checkout.MarkFound(assetId);
+        return RedirectToAction("Details", new { id = assetId });
+      }
+
+
+
 
     //// GET: Catalog/Create
     //public ActionResult Create()
