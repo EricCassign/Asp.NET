@@ -25,7 +25,7 @@ namespace Library.Models.Catalog
 
   public class AssetHoldModel
   {
-    public string PatronName { get; set; }
+    public Patron Patron { get; set; }
     public DateTime HolDateTime { get; set; }
   }
   
