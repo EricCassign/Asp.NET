@@ -1,0 +1,29 @@
+﻿@model Library.Models.CheckoutM.CheckoutDTO
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header"> Checkout @Model.Title</h3>
+<div class="row">
+    <div class="col-md-3">
+        <div >
+            <img class="img-responsive" src="@Model.ImageUrl" />
+        </div>
+    </div> 
+    <div class="col-md-9">
+        @using (Html.BeginForm("PlaceCheckout", "Catalog", FormMethod.Post))
+        {
+            @Html.HiddenFor(a=>a.AssetId)
+            <div>
+                <label>
+                    Enter Library Card ID.
+                </label>
+                @Html.TextBoxFor(a=>a.LibraryCardId,new {Class="form-control"})
+            </div>
+            <div>
+                <button type="submit" class="btn btn-info">Check Out</button>
+            </div>
+        }
+    </div>
+</div>
