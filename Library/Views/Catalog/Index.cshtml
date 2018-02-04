@@ -26,8 +26,9 @@
             <tr>
                 <td>@i .</td>
                 <td>
-                   
-                    <img class="img-responsive" src="@asset.ImageUrl" alt="@asset.Title.ToLower()"/>
+                   <a asp-controller="Catalog" asp-action="Details" asp-route-id="@asset.Id">
+                   <img class="img-responsive" src="@asset.ImageUrl" alt="@asset.Title.ToLower()"/>
+                   </a>
                 </td>
                 <td>@asset.Title</td>
                 <td>@asset.AuthorOrDirector</td>
