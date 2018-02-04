@@ -6,12 +6,12 @@
 
 <h2> @Model.Title Details</h2>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div>
             <img class="img-responsive" src="@Model.ImageUrl" />
         </div>
     </div>
-    <div class="col-md-4 table-responsive">
+    <div class="col-md-6 table-responsive">
         <table class="table table-striped">
             <tbody>
                 <tr>
@@ -39,7 +39,7 @@
                     <tr>
                         <td class="">This asset is Reported lost : </td>
                         <td>
-                            <a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="Found" asp-route-id="@Model.Id">Report Found</a>
+                            <a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="MarkFound" asp-route-id="@Model.Id">Report Found</a>
                         </td>
                     </tr>
                 }
@@ -47,14 +47,14 @@
                 {
                     <tr>
                         <td class="">Checked Out By : </td>
-                        <td> @Model.Patron.FirstName</td>
+                        <td> @Model.Patron.FirstName @Model.Patron.LastName</td>
                     </tr>
                     <tr>
                         <td class="">Options : </td>
                         <td>
-                            <a class="btn btn-success pull-left" role="button" asp-controller="Catalog" asp-action="CheckIn" asp-route-id="@Model.Id">Check In</a>
-                            <a class="btn btn-warning" role="button" asp-controller="Catalog" asp-action="Hold" asp-route-id="@Model.Id">Place Hold</a>
-                            <a class="btn btn-danger" role="button" asp-controller="Catalog" asp-action="Lost" asp-route-id="@Model.Id">Report Lost</a>
+                            <a class="btn btn-success" role="button" href="/Catalog/Checkin/@Model.Id">Check In</a>
+                            <hr/><a class="btn btn-warning" role="button" href="/Catalog/Hold/@Model.Id">Place Hold</a>
+                            <hr/><a class="btn btn-danger" role="button" asp-controller="Catalog" asp-action="MarkLost" asp-route-id="@Model.Id">Report Lost</a>
 
                         </td>
                     </tr>
@@ -63,14 +63,14 @@
                 {
                     <tr>
                         <td class="">Option : </td>
-                        <td><a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="CheckOut" asp-route-id="@Model.Id">Check Out</a> </td>
+                        <td><a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="Checkout" asp-route-id="@Model.Id">Check Out</a> </td>
                     </tr>
                 }
             </tbody>
         </table>
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="table-responsive">
             <table class="table">
                 @if (@Model.Type == "Book")
@@ -92,6 +92,73 @@
             </table>
         </div>
 
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 table-responsive">
+        <h4 class="page-header">Checkout History</h4>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Date Loaned</th>
+                    <th>Date Returned</th>
+                    <th>Card</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                }
+                @foreach (var checkout in @Model.CheckoutHistories)
+
+                {
+                    i++;
+                    <tr>
+                        <td>@i .</td>
+                        <td>
+                            @checkout.CheckedOut
+                        </td>
+                        <td>
+                            @checkout.CheckedIn
+                        </td>
+                        <td>
+                            @checkout.LibraryCard.Id
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <div class="col-md-6 table-responsive">
+        <h4 class="page-header">Current Holds</h4>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Hold Placed</th>
+                    <th>Patron</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ i = 0;}
+                @foreach (var hold in @Model.CurrentHolds)
+                {
+                    i++;
+                    <tr>
+                        <td>@i .</td>
+                        <td>@hold.HolDateTime</td>
+                        <td>
+                           
+                            <a asp-controller="Patron" asp-action="Details" asp-route-id="@hold.Patron.Id">
+                                @hold.Patron.FirstName @hold.Patron.FirstName
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
