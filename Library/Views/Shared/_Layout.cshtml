@@ -29,10 +29,11 @@
                 <a  asp-controller="Home" asp-action="Index" class="navbar-brand">Library</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-controller="Catalog" asp-action="Index">Catalog</a></li>
+                    <li><a asp-controller="Catalog" asp-action="Checkout" asp-route-id="2">Checkout</a></li>
                 </ul>
             </div>
         </div>
