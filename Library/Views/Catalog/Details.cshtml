@@ -1,0 +1,97 @@
+﻿@model Library.Models.Catalog.LibraryAssetDetailsDTO
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> @Model.Title Details</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <img class="img-responsive" src="@Model.ImageUrl" />
+        </div>
+    </div>
+    <div class="col-md-4 table-responsive">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td class="">Title : </td>
+                    <td>@Model.Title</td>
+                </tr>
+                <tr>
+                    <td class="">Author/Director : </td>
+                    <td>@Model.AuthorOrDirector</td>
+                </tr>
+                <tr>
+                    <td class="">Status : </td>
+                    <td>@Model.Status</td>
+                </tr>
+                <tr>
+                    <td class="">Type : </td>
+                    <td>@Model.Type</td>
+                </tr>
+                <tr>
+                    <td class="">Current Branch : </td>
+                    <td>@Model.CurrentLocation</td>
+                </tr>
+                @if (Model.Status == "Lost")
+                {
+                    <tr>
+                        <td class="">This asset is Reported lost : </td>
+                        <td>
+                            <a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="Found" asp-route-id="@Model.Id">Report Found</a>
+                        </td>
+                    </tr>
+                }
+                @if (Model.Status == "Checked Out")
+                {
+                    <tr>
+                        <td class="">Checked Out By : </td>
+                        <td> @Model.Patron.FirstName</td>
+                    </tr>
+                    <tr>
+                        <td class="">Options : </td>
+                        <td>
+                            <a class="btn btn-success pull-left" role="button" asp-controller="Catalog" asp-action="CheckIn" asp-route-id="@Model.Id">Check In</a>
+                            <a class="btn btn-warning" role="button" asp-controller="Catalog" asp-action="Hold" asp-route-id="@Model.Id">Place Hold</a>
+                            <a class="btn btn-danger" role="button" asp-controller="Catalog" asp-action="Lost" asp-route-id="@Model.Id">Report Lost</a>
+
+                        </td>
+                    </tr>
+                }
+                @if (Model.Status == "Available")
+                {
+                    <tr>
+                        <td class="">Option : </td>
+                        <td><a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="CheckOut" asp-route-id="@Model.Id">Check Out</a> </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-md-4">
+        <div class="table-responsive">
+            <table class="table">
+                @if (@Model.Type == "Book")
+                {
+                    <tr>
+                        <td class="">ISBN : </td>
+                        <td>@Model.ISBN</td>
+                    </tr>
+                }
+                <tr>
+                    <td class="">Cost : </td>
+                    <td>@Model.Cost</td>
+                </tr>
+                <tr>
+                    <td class="">Copies : </td>
+                    <td>@Model.NumberOfCopies</td>
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
