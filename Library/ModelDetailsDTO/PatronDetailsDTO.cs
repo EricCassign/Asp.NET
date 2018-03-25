@@ -21,6 +21,7 @@ namespace Library.Models
     public int LibraryCardId { get; set; }
     public decimal OverdueFees { get; set; }
     public string LibraryBranch { get; set; }
+    public string ImageUrl { get; set; }
 
     public IEnumerable<CheckoutHistory> CheckoutHistories { get; set; }
     public IEnumerable<Checkout> Checkouts { get; set; }

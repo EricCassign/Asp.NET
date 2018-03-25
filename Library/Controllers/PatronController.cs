@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using LibraryData;
 using LibraryData.Models;
 
@@ -55,19 +53,20 @@ namespace Library.Controllers
       }
       var model = new PatronDetailsDTO()
       {
-       FirstName = patron.FirstName,
-       Address = patron.Address,
-       DateOfBirth = patron.DateOfBirth,
-       LastName = patron.LastName,
-       OverdueFees = patron.LibraryCard.Fees,
-       MemberSince = patron.LibraryCard.Created,
-       LibraryCardId = patron.LibraryCard.Id,
-       PhoneNumber = patron.PhoneNumber,
-       LibraryBranch = patron.LibraryBranch.Name,
-       Checkouts = _patron.GetCheckouts(id).ToList()??new List<Checkout>(),
-      CheckoutHistories=_patron.GeCheckoutHistories(id).ToList()??new List<CheckoutHistory>(),
-      Holds = _patron.GetHolds(id).ToList()??new List<Hold>()
-                
+        FirstName = patron.FirstName,
+        Address = patron.Address,
+        DateOfBirth = patron.DateOfBirth,
+        LastName = patron.LastName,
+        OverdueFees = patron.LibraryCard.Fees,
+        MemberSince = patron.LibraryCard.Created,
+        LibraryCardId = patron.LibraryCard.Id,
+        PhoneNumber = patron.PhoneNumber,
+        LibraryBranch = patron.LibraryBranch.Name,
+        ImageUrl = patron.ImageUrl,
+        Checkouts = _patron.GetCheckouts(id).ToList() ?? new List<Checkout>(),
+        CheckoutHistories = _patron.GeCheckoutHistories(id).ToList() ?? new List<CheckoutHistory>(),
+        Holds = _patron.GetHolds(id).ToList() ?? new List<Hold>()
+
       };
       return View(model);
     }
