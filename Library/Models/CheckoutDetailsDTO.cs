@@ -1,6 +1,6 @@
-﻿namespace Library.Models.CheckoutM
+﻿namespace Library.Models
 {
-    public class CheckoutDTO
+    public class CheckoutDetailsDTO
     {
     public string LibraryCardId { get; set; }
     public string Title { get; set; }

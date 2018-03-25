@@ -1,0 +1,76 @@
+﻿@model Library.Models.PatronApi
+
+@{
+    ViewData["Title"] = "Patron Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Patron Details     <a class="btn btn-primary pull-right" asp-action="Create"> <i class="glyphicon glyphicon-plus"></i> Create New</a></h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Library Card
+            </th>
+            <th>
+                Overdue Fees
+            </th>
+            <th>
+                Library Branch
+            </th>
+            <th>
+                View Profile
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 0;
+        }
+        @foreach (var patron in Model.Patron)
+        {
+            i++;
+        <tr>
+            <td>
+                @i.
+            </td>
+            <td>
+                @patron.FirstName
+            </td>
+            <td>
+                @patron.LastName
+            </td>
+            <td>
+                @patron.PhoneNumber
+            </td>
+            <td>
+                @patron.LibraryCardId
+            </td>
+            <td>
+                @patron.OverdueFees
+            </td>
+            <td>
+                @patron.LibraryBranch
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@patron.Id">Edit</a> |
+                <a href="Patron/Details/@patron.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@patron.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

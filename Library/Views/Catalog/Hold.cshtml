@@ -1,4 +1,4 @@
-﻿@model Library.Models.CheckoutM.CheckoutDTO
+﻿@model Library.Models.CheckoutDetailsDTO
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,11 +16,11 @@
         {
             @Html.HiddenFor(a => a.AssetId)
             <div>
-                <div class="alert alert-info">This item has <b>@Model.HoldCount</b> current holds.</div>
+                <div class="alert alert-info"><i class="glyphicon glyphicon-book"></i> This item has <b>@Model.HoldCount</b> current holds.</div>
                 <label>
                     Enter Library Card ID.
                 </label>
-                @Html.TextBoxFor(a => a.LibraryCardId)
+                @Html.TextBoxFor(a => a.LibraryCardId,new {Class="form-control"})
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Place Hold</button>

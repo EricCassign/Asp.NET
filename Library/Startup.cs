@@ -1,4 +1,3 @@
-using Library.Models.Catalog;
 using LibraryData;
 using LibraryServices;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +24,7 @@ namespace Library
       services.AddSingleton(Configuration);
       services.AddScoped<ILibraryAsset, LibraryAssetService>();
       services.AddScoped<ICheckout, CheckoutService>();
+      services.AddScoped<IPatron, PatronService>();
 
       services.AddDbContext<LibraryContext>(options
         => options.UseSqlServer(Configuration.GetConnectionString("LibraryConnection")));

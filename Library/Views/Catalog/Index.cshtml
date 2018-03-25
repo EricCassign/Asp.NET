@@ -1,5 +1,4 @@
-﻿@using LibraryData
-@model Library.Models.Catalog.LibraryAssetApi
+﻿@model Library.Models.LibraryAssetApi
 @{
     ViewData["Title"] = "Libray Catalog Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,6 +13,7 @@
             <th>Title</th>
             <th>Author/Director</th>
             <th>Type</th>
+            <th>Year</th>
         </tr>
         </thead>
         <tbody>
@@ -26,13 +26,15 @@
             <tr>
                 <td>@i .</td>
                 <td>
-                   <a asp-controller="Catalog" asp-action="Details" asp-route-id="@asset.Id">
-                   <img class="img-responsive" src="@asset.ImageUrl" alt="@asset.Title.ToLower()"/>
-                   </a>
+                  <!-- <a asp-controller="Catalog" asp-action="Details" asp-route-id="@asset.Id">-->
+                    <a  href="Catalog/Details/@asset.Id">
+                        <img class="img-responsive cs-cover" src="@asset.ImageUrl" alt="@asset.Title.ToLower()"/>
+                    </a>
                 </td>
                 <td>@asset.Title</td>
                 <td>@asset.AuthorOrDirector</td>
                 <td>@asset.Type</td>
+                <td>@asset.Year</td>
             </tr>
         }
         </tbody>

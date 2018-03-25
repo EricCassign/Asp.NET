@@ -1,0 +1,153 @@
+﻿@model Library.Models.PatronDetailsDTO
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@Model.FullName Details</h3>
+
+<div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <tr>
+                    <td><label> First Name</label></td>
+                    <td> @Model.FirstName</td>
+                </tr>
+                <tr>
+                    <td><label> Last Name</label></td>
+                    <td> @Model.LastName</td>
+                </tr>
+                <tr>
+                    <td><label> Address</label></td>
+                    <td> @Model.Address</td>
+                </tr>
+                <tr>
+                    <td><label> Date Of Birth</label></td>
+                    <td> @Model.DateOfBirthString</td>
+                </tr>
+                <tr>
+                    <td><label> Phone Number</label></td>
+                    <td> @Model.PhoneNumber</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table">
+                <tr>
+                    <td><label>Library Card</label></td>
+                    <td>@Model.LibraryCardId</td>
+                </tr>
+                <tr>
+                    <td><label>Library Branch</label></td>
+                    <td>@Model.LibraryBranch</td>
+                </tr>
+                <tr>
+                    <td><label>Member Since</label></td>
+                    <td>@Model.MemberSinceString</td>
+                </tr>
+                <tr>
+                    <td><label> Due Fees</label></td>
+                    @if (@Model.OverdueFees > 0)
+                    {
+                        <td>Ksh. @Model.OverdueFees</td>
+                    }
+                    else
+                    {
+                        <td>No due fees.</td>
+                    }
+                </tr>
+
+            </table>
+        </div>
+    </div> <hr/>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Current Checkouts</h4>
+            @if (@Model.Checkouts.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <th>Title</th>
+                    <th>Since</th>
+                    <th>Until</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var checkout in @Model.Checkouts)
+                        {
+                            <tr>
+                                <td>@checkout.LibraryAsset.Title</td>
+                                <td>@checkout.Since</td>
+                                <td>@checkout.Until</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No items currently checked out.</p>
+            }
+        </div>
+        <div class="col-md-4">
+            <h4>Current Holds</h4>
+            @if (@Model.Holds.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <th>Title</th>
+                    <th>Date Placed</th>
+                    <th>Card Id</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var hold in @Model.Holds)
+                        {
+                            <tr>
+                                <td>@hold.LibraryAsset.Title</td>
+                                <td>@hold.HoldPlaced</td>
+                                <td>@hold.LibraryCard.Id</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No holds placed.</p>
+            }
+        </div>
+        <div class="col-md-4">
+            <h4> Checkout History</h4>
+            @if (@Model.CheckoutHistories.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <th>Title</th>
+                    <th>Check Out</th>
+                    <th>Check In</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var checkout in @Model.CheckoutHistories)
+                        {
+                            <tr>
+                                <td>@checkout.LibraryAsset.Title</td>
+                                <td>@checkout.CheckedOut</td>
+                                <td>@checkout.CheckedIn</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No checkout history.</p>
+            }
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
