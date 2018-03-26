@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LibraryData\LibraryData.csproj" />
     <ProjectReference Include="..\LibraryServices\LibraryServices.csproj" />
-    <ProjectReference Include="..\UserManagement\UserManagement.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\resources\" />
