@@ -1,4 +1,4 @@
-﻿@model Library.Models.Catalog.LibraryAssetDetailsDTO
+﻿@model Library.Models.LibraryAssetDetailsDTO
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,7 +39,8 @@
                     <tr>
                         <td class="">This asset is Reported lost : </td>
                         <td>
-                            <a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="MarkFound" asp-route-id="@Model.Id">Report Found</a>
+                           @* <a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="MarkFound" asp-route-id="@Model.Id">Report Found</a>*@
+                            <a class="btn btn-block btn-info" role="button" href="/Catalog/MarkFound/@Model.Id">Report Found</a>
                         </td>
                     </tr>
                 }
@@ -53,17 +54,20 @@
                         <td class="">Options : </td>
                         <td>
                             <a class="btn btn-success" role="button" href="/Catalog/Checkin/@Model.Id">Check In</a>
-                            <hr/><a class="btn btn-warning" role="button" href="/Catalog/Hold/@Model.Id">Place Hold</a>
-                            <hr/><a class="btn btn-danger" role="button" asp-controller="Catalog" asp-action="MarkLost" asp-route-id="@Model.Id">Report Lost</a>
-
-                        </td>
+                            <hr />
+                            <a class="btn btn-warning" role="button" href="/Catalog/Hold/@Model.Id">Place Hold</a>
+                            <hr />
+                                <a class="btn btn-danger" role="button" href="/Catalog/MarkLost/@Model.Id">Report Lost</a>
+                            </td>
                     </tr>
                 }
                 @if (Model.Status == "Available")
                 {
                     <tr>
                         <td class="">Option : </td>
-                        <td><a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="Checkout" asp-route-id="@Model.Id">Check Out</a> </td>
+                        <!--<td><a class="btn btn-block btn-info" role="button" asp-controller="Catalog" asp-action="Checkout" asp-route-id="@Model.Id">Check Out</a> </td>-->
+                        <td><a class="btn btn-block btn-info" role="button"  href="/Catalog/Checkout/@Model.Id">Check Out</a> </td>
+
                     </tr>
                 }
             </tbody>
@@ -151,8 +155,8 @@
                         <td>@hold.HolDateTime</td>
                         <td>
                            
-                            <a asp-controller="Patron" asp-action="Details" asp-route-id="@hold.Patron.Id">
-                                @hold.Patron.FirstName @hold.Patron.FirstName
+                            <a href="/Patron/Details/@hold.Patron.Id">
+                                @hold.Patron.FirstName @hold.Patron.LastName
                             </a>
                         </td>
                     </tr>

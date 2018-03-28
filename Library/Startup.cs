@@ -1,11 +1,13 @@
-using Library.Models.Catalog;
-using LibraryData;
 using LibraryServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Library.Services;
+using LibraryData;
+using LibraryData.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Library
 {
@@ -25,7 +27,18 @@ namespace Library
       services.AddSingleton(Configuration);
       services.AddScoped<ILibraryAsset, LibraryAssetService>();
       services.AddScoped<ICheckout, CheckoutService>();
+      services.AddScoped<IPatron, PatronService>();
 
+ 
+
+      services.AddIdentity<ApplicationUser, IdentityRole>()
+        .AddEntityFrameworkStores<LibraryContext>()
+        .AddDefaultTokenProviders();
+      // Add application services.
+      services.AddTransient<IEmailSender, EmailSender>();
+
+      //services.AddDbContext<UserManagementDbContext>(options =>
+      //  options.UseSqlServer(Configuration.GetConnectionString("LibraryConnection")));
       services.AddDbContext<LibraryContext>(options
         => options.UseSqlServer(Configuration.GetConnectionString("LibraryConnection")));
     }
@@ -35,21 +48,24 @@ namespace Library
     {
       if (env.IsDevelopment())
       {
-        app.UseDeveloperExceptionPage();
         app.UseBrowserLink();
+        app.UseDeveloperExceptionPage();
+        app.UseDatabaseErrorPage();
       }
       else
       {
-        app.UseExceptionHandler("/Error");
+        app.UseExceptionHandler("/Home/Error");
       }
 
       app.UseStaticFiles();
 
+      app.UseAuthentication();
+
       app.UseMvc(routes =>
       {
         routes.MapRoute(
-                  name: "default",
-                  template: "{controller}/{action=Index}/{id?}");
+          name: "default",
+          template: "{controller=Home}/{action=Index}/{id?}");
       });
     }
   }

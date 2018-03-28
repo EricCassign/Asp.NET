@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LibraryData.Models;
 
-namespace Library.Models.Catalog
+namespace Library.Models
 {
   public class LibraryAssetDetailsDTO
   {
@@ -28,5 +28,9 @@ namespace Library.Models.Catalog
     public Patron Patron { get; set; }
     public DateTime HolDateTime { get; set; }
   }
-  
+
+  public class LibraryAssetApi
+  {
+    public IEnumerable<LibraryAssetDetailsDTO> Asset { get; set; }
+  }
 }
